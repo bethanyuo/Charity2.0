@@ -1,0 +1,89 @@
+/* You can add global styles to this file, and also import other style files */
+@import 'src/sass/variables';
+
+html, body { height: 100%; }
+body { 
+    margin: 0;
+    font-family: Roboto,
+    "Helvetica Neue", sans-serif;
+    background: $extraLightOpacityBlue;
+    overflow: hidden;
+}
+
+.mat-grid-tile .mat-figure {
+    align-items: initial !important;
+}
+
+#main-container {
+    height: calc(100vh - #{$navbarHeight});
+}
+
+.main-form-container {
+    position: relative;
+}
+
+.loading-container {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    bottom: 0;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-color: $lightOpacityBlue;
+}
+
+.mat-step-label {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    .material-icons {
+        margin-right: 5px;
+    }
+}
+
+mat-dialog-container {
+    transform: none !important;
+    max-height: 90vh !important;
+    overflow: auto !important;
+}
+
+.mat-horizontal-stepper-header {
+    pointer-events: none !important;
+}
+
+mat-dialog-container {
+    padding: 20px !important;
+}
+
+
+.mat-list-item-content {
+    justify-content: space-between !important;
+}
+
+.mat-dialog-action {
+    margin-top: 10px !important;;
+}
+
+.mat-list-item {
+    font-size: 0.8rem !important;
+    &:nth-child(odd) {
+        background: $extraLightOpacityBlue;
+    }
+}
+
+.notification-error, .notification-success {
+    color: #fff;
+}
+
+.notification-error {
+    background-color: $red;
+}
+
+.notification-success {
+    background-color: $green;
+}
+
