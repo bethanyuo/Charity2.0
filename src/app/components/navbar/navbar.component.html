@@ -1,1 +1,20 @@
-<p>navbar works!</p>
+<nav>
+    <h1>Awesome Decentralized Delivery App!</h1>
+    <!-- <div>
+        <mat-form-field appearance="fill">
+            <mat-label>Search Charities or Contractors</mat-label>
+            <input matInput>
+        </mat-form-field>
+    </div> -->
+    <div class="flex-item">
+        <!-- <div>
+            <mat-form-field appearance="fill">
+                <mat-label>Search Charities or Contractors</mat-label>
+                <input matInput>
+            </mat-form-field>
+        </div> -->
+        <div class="nav-item flex-item"><span id="green-point"></span> {{ currentNetwork | titlecase }}</div>
+        <div class="nav-item">{{ a }}</div>
+        <div class="nav-item">{{ b }} ETH</div>
+    </div>
+</nav>

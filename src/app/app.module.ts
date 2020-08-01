@@ -8,13 +8,15 @@ import { CharityRequestsComponent } from './components/charity-requests/charity-
 import { FooterComponent } from './components/footer/footer.component';
 import { SharedModule } from 'src/shared/shared.module';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { RequestListComponent } from './components/request-list/request-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CharityRequestsComponent,
     FooterComponent,
-    NavbarComponent
+    NavbarComponent,
+    RequestListComponent
   ],
   imports: [
     BrowserModule,
