@@ -180,6 +180,10 @@ contract RequestChain is ERC20 {
         return charityArr.length;
     }
 
+    function getRequest(uint256 i) public view returns(string memory charity) {
+        return charityArr[i];
+    }
+
     function addSupplier(
         string memory supplier,
         address ID,

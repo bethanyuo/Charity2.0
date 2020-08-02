@@ -67,13 +67,28 @@ export class DappService {
     }
   }
 
+  public async loadRequests(): Promise<any> {
+    try {
+      const count = await this.web3Service.contract.methods.getDeliveryCount().call();
+      const requests = [];
+      for (let i = 0; i < count; i++) {
+        const charity = await this.web3Service.contract.methods.getRequest(i).call();
+        const request = await this.web3Service.contract.methods.getCharity(charity).call();
+        const decodedRequest = this.decodeRequest(request);
+        requests.push(decodedRequest);
+      }
+      return requests;
+    } catch (err) {
+      console.log('MEGA ERROR ', err);
+    }
+  }
   public async getCharityInfo(charityName: string): Promise<any> {
     console.log("GET CLIENT");
     try {
       //let owner: string = await this.web3Service.contract.methods.getCurrentOwner().call();
       //let owner: string = "0x81E0ABF825FA3DF39E2EF2B063504C344B9702D3A".toUpperCase();
       //let owner: string = this.web3Service.owner;
-      let rVal = await this.web3Service.contract.methods.getCharityInfo(charityName).call();
+      let rVal = await this.web3Service.contract.methods.getCharity(charityName).call();
       return rVal;
     } catch (err) {
       // console.log('SearchService.getCharityInfo(): failed:', err);
@@ -81,6 +96,11 @@ export class DappService {
       throw err;
       //return err;
     }
+  }
+
+  public async getRequestCount(): Promise<number> {
+    const count = await this.web3Service.contract.methods.requestCount().call();
+    return count;
   }
 
   public async setCharityInfo(charityName: string): Promise<any> {
@@ -115,6 +135,21 @@ export class DappService {
       // alert('SelectService.selectCharity(): failed:' + err);
       throw err;
     }
+  }
+
+  private decodeRequest(request: any) {
+    return {
+      selected: request.isSelected,
+      deadline: new Date(0).setUTCSeconds(+request.deadline),
+      //address: this.web3Service.web3.utils.toUtf8(request.ID),
+      address: request.ID,
+      members: request.members,
+      reward: request.tokenReward,
+      request: request.request,
+      contact: request.primaryContact,
+      category: +request.state,
+      timestamp: new Date(0).setUTCSeconds(+request.timestamp)
+    };
   }
 
 }
