@@ -9,10 +9,10 @@ export class DappService {
 
   constructor(private web3Service: Web3Service) { }
 
-  public async createClient(charityName: string, charityID: string, request: string, members: number, primaryContact: string, urgent: boolean, requestType: Category): Promise<any> {
+  public async createRequest(charityName: string, charityID: string, request: string, members: number, primaryContact: string, urgent: boolean, requestType: Category, currentAddress: string): Promise<any> {
     console.log("CREATE CLIENT");
     try {
-      return await this.web3Service.contract.methods.addCharity(charityName, charityID, request, members, primaryContact, urgent, requestType).send({ from: charityID, gas: 3000000 });
+      return await this.web3Service.contract.methods.addRequest(charityName, charityID, request, members, primaryContact, urgent, requestType).send({ from: currentAddress, gas: 3000000 });
     } catch (err) {
       console.log('ClientService.createClient(): failed:', err);
       alert('ClientService.createClient(): failed:' + err);
@@ -74,7 +74,7 @@ export class DappService {
       for (let i = 0; i < count; i++) {
         const charity = await this.web3Service.contract.methods.getRequest(i).call();
         const request = await this.web3Service.contract.methods.getCharity(charity).call();
-        const decodedRequest = this.decodeRequest(request);
+        const decodedRequest = this.decodeRequest(charity, request);
         requests.push(decodedRequest);
       }
       return requests;
@@ -103,23 +103,23 @@ export class DappService {
     return count;
   }
 
-  public async setCharityInfo(charityName: string): Promise<any> {
-    console.log("GET CLIENT");
-    try {
-      //let owner: string = await this.web3Service.contract.methods.getCurrentOwner().call();
-      //let owner: string = "0x81E0ABF825FA3DF39E2EF2B063504C344B9702D3A".toUpperCase();
-      const accounts = await this.web3Service.web3.eth.getAccounts();
-      const from = accounts[0];
-      //let owner: string = this.web3Service.owner;
-      let rVal = await this.web3Service.contract.methods.getCharityInfo(charityName).send({ from: from, gas: 3000000 });
-      return rVal;
-    } catch (err) {
-      // console.log('SearchService.getCharityInfo(): failed:', err);
-      // alert('SearchService.getCharityInfo(): failed:' + err);
-      throw err;
-      //return err;
-    }
-  }
+  // public async setCharityInfo(charityName: string): Promise<any> {
+  //   console.log("GET CLIENT");
+  //   try {
+  //     //let owner: string = await this.web3Service.contract.methods.getCurrentOwner().call();
+  //     //let owner: string = "0x81E0ABF825FA3DF39E2EF2B063504C344B9702D3A".toUpperCase();
+  //     const accounts = await this.web3Service.web3.eth.getAccounts();
+  //     const from = accounts[0];
+  //     //let owner: string = this.web3Service.owner;
+  //     let rVal = await this.web3Service.contract.methods.getCharityInfo(charityName).send({ from: from, gas: 3000000 });
+  //     return rVal;
+  //   } catch (err) {
+  //     // console.log('SearchService.getCharityInfo(): failed:', err);
+  //     // alert('SearchService.getCharityInfo(): failed:' + err);
+  //     throw err;
+  //     //return err;
+  //   }
+  // }
   
   public async selectCharity(charityName: string, supplierName: string, supplierID: string): Promise<boolean> {
     console.log("SELECT CLIENT");
@@ -137,8 +137,9 @@ export class DappService {
     }
   }
 
-  private decodeRequest(request: any) {
+  private decodeRequest(charity: string, request: any) {
     return {
+      charity: charity,
       selected: request.isSelected,
       deadline: new Date(0).setUTCSeconds(+request.deadline),
       //address: this.web3Service.web3.utils.toUtf8(request.ID),

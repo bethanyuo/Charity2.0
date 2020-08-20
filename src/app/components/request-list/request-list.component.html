@@ -1,1 +1,53 @@
-<p>request-list works!</p>
+<h2>Requests</h2>
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" matSort>
+
+    <!-- Position Column -->
+    <ng-container matColumnDef="timestamp">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Charity </th>
+      <td mat-cell *matCellDef="let request"> {{ request.charity }} </td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="category">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Category </th>
+      <td mat-cell *matCellDef="let request">
+        <div class="flex-item">
+          <span class="material-icons">
+            {{ request.category | requestStateIcon }}
+          </span>
+          {{ request.category | requestState | titlecase }} 
+        </div>
+      </td>
+    </ng-container>
+
+    <!-- Weight Column -->
+    <ng-container matColumnDef="reward">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Reward </th>
+      <td mat-cell *matCellDef="let request"> {{ request.reward }} CTKN </td>
+    </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="state">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Available? </th>
+        <td mat-cell *matCellDef="let request"> {{ !request.state }} </td>
+    </ng-container>
+      
+    
+    <ng-container matColumnDef="detailsBtn">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+      <td mat-cell *matCellDef="let request">
+        <button mat-icon-button matTooltip="More info about this request" matTooltipPosition="right" (click)="openDialog(request.charity)">
+          <span class="material-icons">
+            loupe
+          </span>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns; sticky: true"></tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[8, 10, 20]" showFirstLastButtons></mat-paginator>
+</div>

@@ -1,5 +1,10 @@
 <nav>
-    <h1>Awesome Decentralized Delivery App!</h1>
+    <button mat-icon-button matTooltip="Go Home" matTooltipPosition="below" [routerLink]="Home">
+        <span class="material-icons">
+          public
+        </span>
+        <h1>Charity DApp!</h1>
+    </button>
     <!-- <div>
         <mat-form-field appearance="fill">
             <mat-label>Search Charities or Contractors</mat-label>
@@ -13,8 +18,9 @@
                 <input matInput>
             </mat-form-field>
         </div> -->
+        <div class="nav-item flex-item" *ngIf="!isWeb3Ready"><span id="red-point"></span> <i>Waiting to connect...</i></div>
         <div class="nav-item flex-item"><span id="green-point"></span> {{ currentNetwork | titlecase }}</div>
         <div class="nav-item">{{ a }}</div>
-        <div class="nav-item">{{ b }} ETH</div>
+        <div class="nav-item" *ngIf="isWeb3Ready">{{ b }} ETH</div>
     </div>
 </nav>

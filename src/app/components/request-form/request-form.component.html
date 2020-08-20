@@ -1,0 +1,74 @@
+<h2>New Request</h2>
+<mat-card>
+    <div class="main-form-container">
+        <div *ngIf="isSending" class="loading-container">
+            <p>Waiting for the blockchain to confirm your demand...it can take a little while</p>
+            <mat-spinner></mat-spinner>
+        </div>
+        <mat-horizontal-stepper labelPosition="bottom" [linear]="true" #stepper>
+            <form 
+            [formGroup]="creationForm" 
+            #formDirective="ngForm"
+            (keydown.enter)="$event.preventDefault()">
+                <mat-step [stepControl]="creationForm.get('charityInfo')" formGroupName="charityInfo">
+                    <ng-template matStepLabel>Charity Info</ng-template>
+                    <mat-form-field>
+                    <mat-label>Charity name</mat-label>
+                    <input matInput type="text" placeholder="Charity name" formControlName="charityName" required>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>Contact Info</mat-label>
+                        <input matInput type="email" placeholder="Contact email" formControlName="contactEmail" required>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>Members email</mat-label>
+                        <input matInput type="number" placeholder="Total members" formControlName="members" required>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>ETH Address</mat-label>
+                        <input matInput type="text" placeholder="Address ID" formControlName="ID" required>
+                    </mat-form-field>
+                    <div>
+                    <button mat-button matStepperNext>Next</button>
+                    </div>
+                </mat-step>
+                <mat-step [stepControl]="creationForm.get('requestInfo')"  formGroupName="requestInfo">
+                    <ng-template matStepLabel>Request Info</ng-template>
+                    <mat-form-field>
+                        <mat-label>Request Data</mat-label>
+                        <input matInput type="text" placeholder="Enter your request here..." formControlName="request" required>
+                    </mat-form-field>
+                    <!-- <mat-form-field>
+                        <mat-label>Is this Request Urgent?</mat-label>
+                        <input matInput type="radio" placeholder="Receiver name" formControlName="receiverName" required>
+                    </mat-form-field> -->
+                    <mat-radio-group aria-label="Select an option">
+                        <mat-label>Is this Request Urgent?</mat-label>
+                        <mat-radio-button [(ngModel)]="urgent" formControlName="urgent" [value]="true">Yes</mat-radio-button>
+                        <mat-radio-button [(ngModel)]="urgent" formControlName="urgent" [value]="false">No</mat-radio-button>
+                    </mat-radio-group>
+                    <h4>Request Category</h4>
+                    <mat-form-field appearance="fill">
+                      <mat-label>Category</mat-label>
+                      <mat-select [(ngModel)]="selectedValue" name="type" formControlName="type" required>
+                        <mat-option *ngFor="let type of types" [value]="type.value">
+                          {{type.viewValue}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <div>
+                    <button mat-button matStepperPrevious>Back</button>
+                    <button mat-button (click)="stepper.reset()">Reset</button>
+                    <button 
+                        mat-raised-button
+                        color="primary"
+                        class="create-btn"
+                        [disabled]="creationForm.invalid"
+                        (click)="onSubmit(formDirective)">
+                        Create
+                    </button>
+                </mat-step>
+            </form>
+        </mat-horizontal-stepper>
+    </div>
+</mat-card>

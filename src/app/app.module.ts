@@ -9,6 +9,17 @@ import { FooterComponent } from './components/footer/footer.component';
 import { SharedModule } from 'src/shared/shared.module';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { RequestListComponent } from './components/request-list/request-list.component';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { RequestStateIconPipe } from './pipes/request-state-icon.pipe';
+import { RequestStatePipe } from './pipes/request-state.pipe';
+import { CharityInfoComponent } from './components/charity-info/charity-info.component';
+import { RequestFormComponent } from './components/request-form/request-form.component';
+import { HomeComponent } from './components/home/home.component';
+import { DetailsDialogComponent } from './components/details-dialog/details-dialog.component';
+import { DeliveryStateIconPipe } from './pipes/delivery-state-icon.pipe';
+import { DeliveryStatePipe } from './pipes/delivery-state.pipe';
 
 @NgModule({
   declarations: [
@@ -16,13 +27,24 @@ import { RequestListComponent } from './components/request-list/request-list.com
     CharityRequestsComponent,
     FooterComponent,
     NavbarComponent,
-    RequestListComponent
+    RequestListComponent,
+    RequestStateIconPipe,
+    RequestStatePipe,
+    CharityInfoComponent,
+    RequestFormComponent,
+    HomeComponent,
+    DetailsDialogComponent,
+    DeliveryStateIconPipe,
+    DeliveryStatePipe
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    SharedModule
+    SharedModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,0 +1,89 @@
+<div>
+    <h3 mat-dialog-title>{{ requestData.charity }}</h3>
+    <div class="timer-box">
+        <div>
+            Should be delivered before: {{ requestData.deadline | date:'medium' }}
+        </div>
+        <div *ngIf="requestData.state !== requestState.PENDING">
+            Remaining: <span [ngClass]="{ 'red-time': deadlineExceeded }">
+                {{ timer?.days }}d {{ timer?.hours }}h {{ timer?.minutes }}m {{ timer?.seconds }}s
+            </span>
+        </div>
+    </div>
+    <mat-horizontal-stepper labelPosition="bottom" #stepper>
+        <ng-template matStepperIcon="edit">
+            <span class="material-icons">
+                done
+            </span>
+        </ng-template>
+        <mat-step *ngFor="let step of steps" [completed]="step.completed">
+            <div class="step-body-container">
+                <div *ngIf="isLoading || isSending" class="loading-container">
+                    <p *ngIf="isSending">Waiting for the blockchain to confirm your demand...it can take a little while</p>
+                    <p *ngIf="isLoading">Loading data from the blockchain...</p>
+                    <mat-spinner></mat-spinner>
+                </div>
+                <ng-template matStepLabel>
+                    <span class="material-icons">
+                        {{ step.id | deliveryStateIcon }}
+                    </span>
+                    {{ step.id | deliveryState | titlecase }}
+                </ng-template>
+                <br>
+                <mat-list role="list">
+                    <mat-list-item role="listitem"><b>Address: </b> {{ requestData.ID }}</mat-list-item>
+                    <mat-list-item role="listitem"><b>Primary Contact: </b> {{ requestData.contact }}</mat-list-item>
+                    <!-- <mat-list-item *ngIf="requestData.state !== deliveryState.PENDING" role="listitem">
+                        <b>Courier: </b> {{ requestData.courier }}
+                    </mat-list-item> -->
+                    <mat-list-item role="listitem"><b>Members: </b> {{ requestData.members }}</mat-list-item>
+                    <mat-list-item role="listitem"><b>Request: </b> {{ requestData.request }}</mat-list-item>
+                    <mat-list-item role="listitem"><b>Category: </b> {{ requestData.category | requestState | titlecase }}</mat-list-item>
+                    <mat-list-item *ngIf="requestData.urgent === true" role="listitem">
+                        <b>Urgent? : </b> {{ YES }}
+                    </mat-list-item>
+                    <mat-list-item *ngIf="requestData.urgent !== true" role="listitem">
+                        <b>Urgent? : </b> {{ NO }}
+                    </mat-list-item>
+                    <mat-list-item role="listitem"><b>Token Reward: </b> {{ requestData.reward }}</mat-list-item>
+                    <!-- <mat-list-item 
+                        *ngIf="requestData.state === deliveryState.STARTED || requestData.state === deliveryState.ENDED ||requestData.state === deliveryState.ENDED_OVERTIME"
+                        role="listitem">
+                        <b>Start time: </b> {{ requestData.startTime | date:'medium' }}
+                    </mat-list-item>
+                    <mat-list-item *ngIf="requestData.state === deliveryState.ENDED ||requestData.state === deliveryState.ENDED_OVERTIME" role="listitem">
+                        <b>End time: </b> {{ requestData.endTime | date:'medium' }}
+                    </mat-list-item> -->
+                    <mat-list-item role="listitem"><b>Timestamp: </b> {{ requestData.timestamp | date:'medium' }}</mat-list-item>
+                </mat-list>
+            </div>
+            <div *ngIf="!isLoading && requestData.state === deliveryState.PENDING" 
+                mat-dialog-actions
+                [matTooltip]="startDeliveryTooltipText"
+                aria-label="Button that displays a tooltip when focused or hovered over">>
+                <form
+                    [formGroup]="applicationForm" 
+                    (ngSubmit)="onApplyToRequest()"
+                    (keydown.enter)="$event.preventDefault()">
+                    <div class="field-flexbox">
+                        <mat-form-field>
+                            <input matInput type="text" placeholder="contractor name" formControlName="name">
+                        </mat-form-field>
+                        <mat-form-field>
+                            <input matInput type="text" placeholder="ETH address" formControlName="address">
+                        </mat-form-field>
+                    </div>
+                    <button mat-raised-button color="primary" [disabled]="applicationForm?.invalid || isSending">Apply</button>
+                </form>
+            </div>
+        
+            <div 
+                *ngIf="!isLoading && requestData.state === deliveryState.STARTED"
+                mat-dialog-actions
+                class="button-box"
+                [matTooltip]="markDeliveryTooltipText"
+                aria-label="Button that displays a tooltip when focused or hovered over">
+                <button [disabled]="startDeliveryDisabled" mat-raised-button color="primary" (click)="onStartDelivery()">
+                    Start Delivery
+                </button>
+            </div>

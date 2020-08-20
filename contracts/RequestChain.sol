@@ -43,12 +43,12 @@ contract RequestChain is ERC20 {
     string[] private charityArr;
     address private owner;
     mapping(string => string) private char2Supp;
-    mapping(string => mapping(string => uint256)) private timeLimit;
+    mapping(string => mapping(string => uint)) private timeLimit;
     mapping(string => Charity) private Charities;
     mapping(string => Supplier) private Suppliers;
     mapping(string => uint256) private complete;
     mapping(string => uint256) private incomplete;
-
+    
     event LogNewCharity(
         string charityName,
         address ID,
@@ -67,15 +67,18 @@ contract RequestChain is ERC20 {
         string supplier,
         bool completedSelection
     );
-    event LogDeleteCharity(string charityName, bool completedDeletion);
+    event LogDeleteCharity(
+        string charityName,
+        bool completedDeletion
+    );
 
-    constructor() public ERC20("Charity Token", "CTKN") {
+    constructor() ERC20("Charity Token", "CTKN") public {
         // Initially assign all tokens to the contract's creator.
         owner = msg.sender;
         uint256 initialSupply = 1000000;
         _mint(owner, initialSupply);
     }
-
+    
     modifier timeCheck(string memory charity) {
         require(
             block.timestamp <= Charities[charity].expiry,
@@ -83,30 +86,39 @@ contract RequestChain is ERC20 {
         );
         _;
     }
-
-    function comp(string memory _a, string memory _b)
-        internal
-        pure
-        returns (bool)
-    {
+    
+    function comp(string memory _a, string memory _b) internal pure returns(bool) {
         return keccak256(bytes(_a)) == keccak256(bytes(_b));
     }
+    
+    function getPair(string memory charity) public view returns(string memory contractor) {
+        return char2Supp[charity];
+    }
 
-    function isCharity(string memory charity) internal view returns (bool) {
+    function isCharity(string memory charity) 
+        internal 
+        view
+        returns (bool) 
+    {
         if (charityArr.length == 0) return false;
         return comp(charity, Charities[charity].charityName);
     }
 
-    function isSupplier(string memory supplier) internal view returns (bool) {
-        return comp(supplier, Suppliers[supplier].supplierName);
-    }
-
-    function isAddress(address ID, string memory name)
+    function isSupplier(string memory supplier)
         internal
         view
         returns (bool)
     {
-        return ID == Charities[name].ID || ID == Suppliers[name].ID;
+        return comp(supplier, Suppliers[supplier].supplierName);
+    }
+
+    function isAddress(address ID, string memory name) 
+        internal 
+        view 
+        returns (bool) 
+    {
+        return
+            ID == Charities[name].ID || ID == Suppliers[name].ID;
     }
 
     function addRequest(
@@ -158,7 +170,7 @@ contract RequestChain is ERC20 {
             uint256 tokenReward,
             bool isSelected,
             uint256 timestamp,
-            uint256 deadline
+            uint deadline
         )
     {
         require(isCharity(charity), "Charity requested is not within list");
@@ -175,11 +187,11 @@ contract RequestChain is ERC20 {
             _charity.expiry
         );
     }
-
-    function requestCount() public view returns (uint256) {
+    
+    function requestCount() public view returns(uint256) {
         return charityArr.length;
     }
-
+    
     function getRequest(uint256 i) public view returns(string memory charity) {
         return charityArr[i];
     }
@@ -200,20 +212,20 @@ contract RequestChain is ERC20 {
         _supplier.members = members;
         _supplier.primaryContact = primaryContact;
         _supplier.category = category;
-
-        emit LogNewSupplier(supplier, ID, primaryContact);
+    
+        emit LogNewSupplier(
+            supplier,
+            ID,
+            primaryContact
+        );
     }
-
+    
     // needs for loop
-    function pendingRequests(string memory supplier, uint256 i)
-        public
-        view
-        returns (
-            string memory charity,
-            bool urgency,
-            uint256 reward
-        )
-    {
+    function pendingRequests(string memory supplier, uint i) public view returns(
+        string memory charity,
+        bool urgency,
+        uint256 reward
+    ) {
         if (Suppliers[supplier].category == Charities[charityArr[i]].category) {
             return (
                 charityArr[i],
@@ -222,7 +234,7 @@ contract RequestChain is ERC20 {
             );
         }
     }
-
+    
     function selectCharity(
         string memory charity,
         string memory supplier,
@@ -246,17 +258,20 @@ contract RequestChain is ERC20 {
         Charities[charity].expiry = block.timestamp + 2 minutes;
         timeLimit[charity][supplier] = Charities[charity].expiry;
         char2Supp[charity] = supplier;
-        emit LogSelectCharity(charity, supplier, true);
+        emit LogSelectCharity(
+            charity,
+            supplier,
+            true
+        );
         return Charities[charity].isSelected = true;
     }
-
+    
     function delivery(
         string memory charity,
         string memory supplier,
         address suppID
     ) public {
-        require(
-            comp(char2Supp[charity], supplier),
+        require(comp(char2Supp[charity], supplier),
             "Request is not selected by Contractor provided: Marked INCOMPLETE"
         );
         if (timeLimit[charity][supplier] > now) {
@@ -273,49 +288,41 @@ contract RequestChain is ERC20 {
         string memory supplier,
         address suppID
     ) private timeCheck(charity) {
-        uint256 tokens = Charities[charity].tokenReward *
-            uint256(10)**decimals();
+        uint tokens = Charities[charity].tokenReward * uint256(10)**decimals();
         _transfer(owner, suppID, tokens);
         complete[supplier]++;
         delete char2Supp[charity];
         delete timeLimit[charity][supplier];
         delete Charities[charity];
     }
-
+    
     //needs for loop
-    function popRequest(string memory charity, uint256 i) public {
+    function popRequest(string memory charity, uint i) public {
         if (comp(charity, charityArr[i])) {
             charityArr[i] = charityArr[charityArr.length - 1];
             charityArr.pop();
         }
         emit LogDeleteCharity(charity, true);
     }
-
+    
     function searchInfo(string memory x) public view {
-        require(
-            isCharity(x) || isSupplier(x),
-            "No information listed for Search provided!"
-        );
+        require(isCharity(x) || isSupplier(x), "No information listed for Search provided!");
         if (isCharity(x)) {
             getCharity(x);
         } else if (isSupplier(x)) {
             getSupplier(x);
         }
     }
-
-    function getSupplier(string memory x)
-        public
-        view
-        returns (
-            address supplierID,
-            uint256 members,
-            Category category,
-            string memory primaryContact,
-            uint256 timestamp,
-            uint256 completedRequests,
-            uint256 incompletedRequests
-        )
-    {
+    
+    function getSupplier(string memory x) public view returns(
+        address supplierID,
+        uint256 members,
+        Category category,
+        string memory primaryContact,
+        uint256 timestamp,
+        uint completedRequests,
+        uint incompletedRequests
+    ) {
         Supplier memory _supplier = Suppliers[x];
         return (
             _supplier.ID,

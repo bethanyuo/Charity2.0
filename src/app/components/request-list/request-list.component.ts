@@ -5,6 +5,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import * as _ from 'lodash';
 import { MatDialog } from '@angular/material/dialog';
 import { DappService } from 'src/app/services/dapp.service';
+import { CharityInfoComponent } from '../charity-info/charity-info.component';
 
 @Component({
   selector: 'app-request-list',
@@ -12,7 +13,7 @@ import { DappService } from 'src/app/services/dapp.service';
   styleUrls: ['./request-list.component.scss']
 })
 export class RequestListComponent implements OnInit {
-  public displayedColumns: string[] = ['timestamp', 'state', 'reward', 'cautionAmount', 'detailsBtn'];
+  public displayedColumns: string[] = ['charity', 'category', 'reward', 'state', 'detailsBtn'];
   private requests: any[] = [];
   public areDataLoaded = false;
   public dataSource: MatTableDataSource<any>;
@@ -20,7 +21,7 @@ export class RequestListComponent implements OnInit {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
-  constructor(private zone: NgZone, public dialog: MatDialog, private dappService: DappService) {
+  constructor(public dialog: MatDialog, private dappService: DappService) {
     this.dappService.loadRequests().then(requests => {
       this.requests = _.orderBy(requests, ['timestamp'], ['desc']);
       this.dataSource = new MatTableDataSource(this.requests);
@@ -30,6 +31,14 @@ export class RequestListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  public openDialog(charity: string) {
+    this.dappService.getCharityInfo(charity).then(request => {
+      this.dialog.open(CharityInfoComponent, {
+        data: {charity, request}
+      });
+    });
   }
 
 }
