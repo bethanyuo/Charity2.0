@@ -9,6 +9,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon'
 import { MatCardModule } from '@angular/material/card';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -17,6 +18,8 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatListModule } from '@angular/material/list';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import {MatRadioModule} from '@angular/material/radio';
+import {MatSelectModule} from '@angular/material/select';
 
 
 @NgModule({
@@ -40,7 +43,10 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatStepperModule,
     MatTabsModule,
     MatListModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatRadioModule,
+    MatSelectModule,
+    MatIconModule
   ],
   exports: [
     FormsModule,
@@ -60,7 +66,10 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatStepperModule,
     MatTabsModule,
     MatListModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatRadioModule,
+    MatSelectModule,
+    MatIconModule
   ],
   providers: [
     FormGroupDirective

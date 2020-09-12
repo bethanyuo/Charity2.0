@@ -1,0 +1,20 @@
+@import 'src/sass/variables';
+
+#flex-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.flex-container-item {
+    width: 49%;
+}
+
+@media screen and (max-width: $smallDeviceBreakpoint) {
+    #flex-container {
+        flex-direction: column
+    };
+    .flex-container-item {
+        width: 100%;
+        margin-bottom: 30px;
+    }
+}

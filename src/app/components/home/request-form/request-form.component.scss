@@ -14,6 +14,24 @@ mat-form-field {
     padding: 10px;
 }
 
+mat-radio-group {
+    padding: 10px;
+}
+
+.radio-button {
+    margin: 5px;
+}
+
+.btm {
+    margin-bottom: 10px;
+}
+
+.radio-group {
+    display: flex;
+    flex-direction: column;
+    margin: 0px;
+}
+
 .create-btn {
     float: right;
 }

@@ -33,31 +33,33 @@
                 <mat-list role="list">
                     <mat-list-item role="listitem"><b>Address: </b> {{ requestData.ID }}</mat-list-item>
                     <mat-list-item role="listitem"><b>Primary Contact: </b> {{ requestData.contact }}</mat-list-item>
-                    <!-- <mat-list-item *ngIf="requestData.state !== deliveryState.PENDING" role="listitem">
+                    <!-- <mat-list-item *ngIf="requestData.state !== requestState.PENDING" role="listitem">
                         <b>Courier: </b> {{ requestData.courier }}
                     </mat-list-item> -->
                     <mat-list-item role="listitem"><b>Members: </b> {{ requestData.members }}</mat-list-item>
                     <mat-list-item role="listitem"><b>Request: </b> {{ requestData.request }}</mat-list-item>
                     <mat-list-item role="listitem"><b>Category: </b> {{ requestData.category | requestState | titlecase }}</mat-list-item>
-                    <mat-list-item *ngIf="requestData.urgent === true" role="listitem">
-                        <b>Urgent? : </b> {{ YES }}
+                    <mat-list-item role="listitem" *ngFor="let type of types">
+                        <div *ngIf="requestData.urgent === type.value">
+                            <b>Urgent? : </b> {{type.viewValue}}
+                        </div>
                     </mat-list-item>
-                    <mat-list-item *ngIf="requestData.urgent !== true" role="listitem">
+                    <!-- <mat-list-item *ngIf="requestData.urgent !== true" role="listitem">
                         <b>Urgent? : </b> {{ NO }}
-                    </mat-list-item>
+                    </mat-list-item> -->
                     <mat-list-item role="listitem"><b>Token Reward: </b> {{ requestData.reward }}</mat-list-item>
                     <!-- <mat-list-item 
-                        *ngIf="requestData.state === deliveryState.STARTED || requestData.state === deliveryState.ENDED ||requestData.state === deliveryState.ENDED_OVERTIME"
+                        *ngIf="requestData.state === requestState.STARTED || requestData.state === requestState.ENDED ||requestData.state === requestState.ENDED_OVERTIME"
                         role="listitem">
                         <b>Start time: </b> {{ requestData.startTime | date:'medium' }}
                     </mat-list-item>
-                    <mat-list-item *ngIf="requestData.state === deliveryState.ENDED ||requestData.state === deliveryState.ENDED_OVERTIME" role="listitem">
+                    <mat-list-item *ngIf="requestData.state === requestState.ENDED ||requestData.state === requestState.ENDED_OVERTIME" role="listitem">
                         <b>End time: </b> {{ requestData.endTime | date:'medium' }}
                     </mat-list-item> -->
                     <mat-list-item role="listitem"><b>Timestamp: </b> {{ requestData.timestamp | date:'medium' }}</mat-list-item>
                 </mat-list>
             </div>
-            <div *ngIf="!isLoading && requestData.state === deliveryState.PENDING" 
+            <div *ngIf="!isLoading && requestData.state === requestState.PENDING" 
                 mat-dialog-actions
                 [matTooltip]="startDeliveryTooltipText"
                 aria-label="Button that displays a tooltip when focused or hovered over">>
@@ -78,12 +80,15 @@
             </div>
         
             <div 
-                *ngIf="!isLoading && requestData.state === deliveryState.STARTED"
+                *ngIf="!isLoading && requestData.state === requestState.STARTED"
                 mat-dialog-actions
                 class="button-box"
                 [matTooltip]="markDeliveryTooltipText"
                 aria-label="Button that displays a tooltip when focused or hovered over">
-                <button [disabled]="startDeliveryDisabled" mat-raised-button color="primary" (click)="onStartDelivery()">
-                    Start Delivery
+                <button [disabled]="markDeliveryDisabled" mat-raised-button color="primary" (click)="onCompleteDelivery()">
+                    Complete Delivery
                 </button>
             </div>
+        </mat-step>
+    </mat-horizontal-stepper>
+</div>

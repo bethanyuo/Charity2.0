@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, NgZone } from '@angular/core';
-import { Type } from '../../models/type';
+//import { Type } from '../models/type';
 import { MatStepper } from '@angular/material/stepper';
 import { IAccount } from 'src/app/models/account';
 import { FormGroup, FormBuilder, FormGroupDirective, Validators } from '@angular/forms';
@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
 import { Web3Service } from 'src/app/services/web3.service';
 import { DappService } from 'src/app/services/dapp.service';
 import { NotificationService } from 'src/app/services/notification.service';
+import { Type } from 'src/app/models/type';
 
 @Component({
   selector: 'app-request-form',

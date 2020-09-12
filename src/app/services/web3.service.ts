@@ -37,7 +37,7 @@ export class Web3Service {
   }
 
   private initContract() {
-    Web3.providers.HttpProvider.prototype.sendAsync = Web3.providers.HttpProvider.prototype.send;
+    //Web3.providers.HttpProvider.prototype.sendAsync = Web3.providers.HttpProvider.prototype.send;
     this.initWeb3();
   }
 
@@ -47,7 +47,7 @@ export class Web3Service {
       // Use Mist/MetaMask's provider
       window.ethereum.enable().then(async () => {
         let contractAddress = "0xb8c58242edb0107f0ff40c22fc646547e5eb763f"; //ropsten
-        alert('Connecting to MetaMask');
+        //alert('Connecting to MetaMask');
         this.web3 = new Web3(window.ethereum);
         this.contract = new this.web3.eth.Contract(
           this.contractABI.abi,
@@ -70,6 +70,7 @@ export class Web3Service {
         this.contractABI.abi,
         contractAddress
       );
+      Web3.providers.HttpProvider.prototype.sendAsync = Web3.providers.HttpProvider.prototype.send;
       this.initEventSubscriptions();
       this.isWeb3Ready.next(true);
     }

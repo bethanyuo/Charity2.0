@@ -16,7 +16,10 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./charity-info.component.scss']
 })
 export class CharityInfoComponent implements AfterViewInit {
+  public contractor: any;
+  public supplier: any;
   public isWeb3Ready = false;
+  public requestState = SelectionState;
   public currentAccount: IAccount;
   private subscription = new Subscription();
   public steps = [];
@@ -26,13 +29,17 @@ export class CharityInfoComponent implements AfterViewInit {
   public timer = { days: null, hours: null, minutes: null, seconds: null };
   public deadlineExceeded = false;
   //private contractor: any;
-  public applicationDisabled: boolean;
+  //public applicationDisabled: boolean;
   public startDeliveryDisabled: boolean;
   public markDeliveryDisabled: boolean;
   public startDeliveryTooltipText: string;
   public markDeliveryTooltipText: string;
   @ViewChild('stepper') stepper: MatStepper;
 
+  types = [
+    { value: true, viewValue: 'YES' },
+    { value: false, viewValue: 'NO' }
+  ];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public requestData: any,
@@ -47,6 +54,7 @@ export class CharityInfoComponent implements AfterViewInit {
       this.initSteps();
       this.initApplicationForm();
       this.setStartDeliveryDisabled();
+      this.setCompleteDeliveryDisabled();
       this.initTimer();
   }
 
@@ -105,6 +113,20 @@ export class CharityInfoComponent implements AfterViewInit {
       });
   }
 
+  public onCompleteDelivery(): void {
+    this.isSending = true;
+    this.dappService.completeDelivery(this.requestData.charity, this.supplier, this.contractor.supplierID)
+      .then(async () => {
+        this.notificationService.sendSuccess('Congrats, you just completed this request to this delivery! Your tokens will be reflected in your account shortly.');
+        this.requestData = await this.dappService.getCharityInfo(this.requestData.charity);
+      })
+      .catch(err => this.notificationService.sendError('Something went wrong during the application'))
+      .finally(() => {
+        this.isSending = false;
+        this.closeDialog();
+      });
+  }
+
   private setStartDeliveryDisabled(): void {
     this.startDeliveryDisabled = this.applicationForm.value.address !== this.currentAccount.address;
     if (this.startDeliveryDisabled) {
@@ -115,12 +137,20 @@ export class CharityInfoComponent implements AfterViewInit {
   }
 
   private setCompleteDeliveryDisabled(): void {
-    this.markDeliveryDisabled = this.applicationForm.value.address !== this.currentAccount.address;
-    if (this.markDeliveryDisabled) {
-      this.markDeliveryTooltipText = `Only sender with address ${this.currentAccount.address} can start this delivery`;
-    } else {
-      this.markDeliveryTooltipText = `Hi sender, you can start this delivery whenever you want!`;
-    }
+    this.dappService.getContractor(this.requestData.charity)
+      .then(async contractor => {
+        this.supplier = contractor;
+        this.contractor = await this.dappService.callContractor(contractor);
+        console.log('Contractor Info: ', this.contractor);
+        console.log('Contractor ID: ', this.contractor.supplierID);
+        this.markDeliveryDisabled = this.contractor.supplierID !== this.currentAccount.address;
+        if (this.markDeliveryDisabled) {
+          this.markDeliveryTooltipText = `Only contractor with address ${this.contractor.supplierID} can start this delivery`;
+        } else {
+          this.markDeliveryTooltipText = `Hi contractor, you can mark this delivery as COMPLETE whenever you want!`;
+        }
+      })
+      .catch(err => this.notificationService.sendError('Something went wrong while fetching contractor data'));
   }
 
   private closeDialog(): void {

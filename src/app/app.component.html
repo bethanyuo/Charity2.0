@@ -1,5 +1,5 @@
 <app-navbar></app-navbar>
-<mat-spinner  *ngIf="!this.isWeb3Ready$ | async"></mat-spinner>
+<mat-spinner *ngIf="!this.isWeb3Ready$ "></mat-spinner>
 <div *ngIf="this.isWeb3Ready$ | async" class='ripple-background'>
   <div class='circle xxlarge shade1'></div>
   <div class='circle xlarge shade2'></div>

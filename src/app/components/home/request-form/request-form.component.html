@@ -21,7 +21,7 @@
                         <input matInput type="email" placeholder="Contact email" formControlName="contactEmail" required>
                     </mat-form-field>
                     <mat-form-field>
-                        <mat-label>Members email</mat-label>
+                        <mat-label>Members</mat-label>
                         <input matInput type="number" placeholder="Total members" formControlName="members" required>
                     </mat-form-field>
                     <mat-form-field>
@@ -42,31 +42,39 @@
                         <mat-label>Is this Request Urgent?</mat-label>
                         <input matInput type="radio" placeholder="Receiver name" formControlName="receiverName" required>
                     </mat-form-field> -->
-                    <mat-radio-group aria-label="Select an option">
-                        <mat-label>Is this Request Urgent?</mat-label>
-                        <mat-radio-button [(ngModel)]="urgent" formControlName="urgent" [value]="true">Yes</mat-radio-button>
-                        <mat-radio-button [(ngModel)]="urgent" formControlName="urgent" [value]="false">No</mat-radio-button>
+                    <!-- <div>
+                        <mat-radio-group class="radio-group" aria-label="Select an option" [(ngModel)]="urgent" formControlName="urgent">
+                            <mat-label>Is this Request Urgent?</mat-label>
+                            <mat-radio-button class="radio-button" [value]="true">Yes</mat-radio-button>
+                            <mat-radio-button class="radio-button" [value]="false">No</mat-radio-button>
+                        </mat-radio-group>
+                    </div> -->
+                    <mat-radio-group color="primary" class="radio-group" aria-label="Select an option" formControlName="urgent">
+                        <mat-label class="btm">Is this Request Urgent?</mat-label>
+                        <mat-radio-button class="radio-button" [value]="true">Yes</mat-radio-button>
+                        <mat-radio-button class="radio-button" [value]="false">No</mat-radio-button>
                     </mat-radio-group>
-                    <h4>Request Category</h4>
+                    <!-- <h4>Request Category</h4> -->
                     <mat-form-field appearance="fill">
                       <mat-label>Category</mat-label>
-                      <mat-select [(ngModel)]="selectedValue" name="type" formControlName="type" required>
+                      <mat-select name="type" formControlName="type" required>
                         <mat-option *ngFor="let type of types" [value]="type.value">
                           {{type.viewValue}}
                         </mat-option>
                       </mat-select>
                     </mat-form-field>
                     <div>
-                    <button mat-button matStepperPrevious>Back</button>
-                    <button mat-button (click)="stepper.reset()">Reset</button>
-                    <button 
-                        mat-raised-button
-                        color="primary"
-                        class="create-btn"
-                        [disabled]="creationForm.invalid"
-                        (click)="onSubmit(formDirective)">
-                        Create
-                    </button>
+                        <button mat-button matStepperPrevious>Back</button>
+                        <button mat-button (click)="stepper.reset()">Reset</button>
+                        <button 
+                            mat-raised-button
+                            color="primary"
+                            class="create-btn"
+                            [disabled]="creationForm.invalid"
+                            (click)="onSubmit(formDirective)">
+                            Create
+                        </button>
+                    </div>
                 </mat-step>
             </form>
         </mat-horizontal-stepper>

@@ -20,7 +20,7 @@ export class DappService {
     }
   }
 
-  public async createContractor(supplierName: string, supplierID: string, members: number, primaryContact: string, category: Category): Promise<string> {
+  public async createContractor(supplierName: string, supplierID: string, members: number, primaryContact: string, category: Category): Promise<any> {
     console.log("CREATE CONTRACTOR");
     try {
       //let owner: string = await this.web3Service.contract.methods.getCurrentOwner().call();
@@ -36,16 +36,30 @@ export class DappService {
     }
   }
 
-  public async callContractor(supplierName: string, supplierID: string, members: number, primaryContact: string, category: Category): Promise<string> {
+  public async callContractor(supplierName: string): Promise<any> {
     console.log("CALL CONTRACTOR");
     try {
       //let owner: string = await this.web3Service.contract.methods.getCurrentOwner().call();
       //let owner: string = "0x81E0ABF825FA3DF39E2EF2B063504C344B9702D3A".toUpperCase();
       //let owner: string = this.web3Service.owner;
-      return await this.web3Service.contract.methods.addSupplier(supplierName, supplierID, members, primaryContact, category).call();
+      return await this.web3Service.contract.methods.getSupplier(supplierName).call();
     } catch (err) {
       console.log('SelectService.selectCharity(): failed:', err);
       alert('SelectService.selectCharity(): failed:' + err);
+      return err;
+    }
+  }
+
+  public async getContractor(charityName: string): Promise<string> {
+    console.log("CALL CONTRACTOR");
+    try {
+      //let owner: string = await this.web3Service.contract.methods.getCurrentOwner().call();
+      //let owner: string = "0x81E0ABF825FA3DF39E2EF2B063504C344B9702D3A".toUpperCase();
+      //let owner: string = this.web3Service.owner;
+      return await this.web3Service.contract.methods.getPair(charityName).call();
+    } catch (err) {
+      console.log('DappService.getPair(): failed:' + err);
+      //alert('SelectService.selectCharity(): failed:' + err);
       return err;
     }
   }

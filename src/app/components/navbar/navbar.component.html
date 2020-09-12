@@ -1,16 +1,13 @@
 <nav>
-    <button mat-icon-button matTooltip="Go Home" matTooltipPosition="below" [routerLink]="Home">
+    <button mat-button [routerLink]="'/'" matTooltip="Go Home">
+        <!-- matTooltip="Go Home" matTooltipPosition="after" aria-label="Button that displays a tooltip when focused or hovered over"  -->
         <span class="material-icons">
-          public
+            public
         </span>
-        <h1>Charity DApp!</h1>
+        Charity DApp!
     </button>
-    <!-- <div>
-        <mat-form-field appearance="fill">
-            <mat-label>Search Charities or Contractors</mat-label>
-            <input matInput>
-        </mat-form-field>
-    </div> -->
+    <!-- <h1>Awesome Decentralized Delivery App!</h1> -->
+
     <div class="flex-item">
         <!-- <div>
             <mat-form-field appearance="fill">
@@ -19,7 +16,7 @@
             </mat-form-field>
         </div> -->
         <div class="nav-item flex-item" *ngIf="!isWeb3Ready"><span id="red-point"></span> <i>Waiting to connect...</i></div>
-        <div class="nav-item flex-item"><span id="green-point"></span> {{ currentNetwork | titlecase }}</div>
+        <div class="nav-item flex-item" *ngIf="isWeb3Ready"><span id="green-point"></span> {{ currentNetwork | titlecase }}</div>
         <div class="nav-item">{{ a }}</div>
         <div class="nav-item" *ngIf="isWeb3Ready">{{ b }} ETH</div>
     </div>
