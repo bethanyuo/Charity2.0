@@ -6,7 +6,6 @@ import * as _ from 'lodash';
 import { MatDialog } from '@angular/material/dialog';
 import { DappService } from 'src/app/services/dapp.service';
 import { CharityInfoComponent } from '../../charity-info/charity-info.component';
-//import { CharityInfoComponent } from '../charity-info/charity-info.component';
 
 @Component({
   selector: 'app-request-list',

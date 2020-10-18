@@ -70,14 +70,14 @@ export class RequestFormComponent implements OnInit {
     });
   }
 
-  public onSubmit(formDirective) {
+  public onSubmit(formDirective: FormGroupDirective) {
     this.isSending = true;
     if (this.creationForm.invalid) {
       return;
     }      
     console.log(this.creationForm.value);
     const format = this.formatForm(this.creationForm.value);
-    this.dappService.createRequest(format.charityName, format.charityID, format.request, format.members, format.contactEmail, format.urgent, format.type, this.currentAccount.address)
+    this.dappService.createRequest(format.charityName, format.charityID, format.request, format.members, format.primaryContact, format.urgent, format.requestType, this.currentAccount.address)
       .then(res => {
         this.notificationService.sendSuccess('Delivery successfully created!');
         this.stepper.reset();

@@ -1,0 +1,36 @@
+<!-- <section> -->
+<mat-card>
+<div>
+<!-- class="mat-elevation-z8"> -->
+    <form #formDirective="ngForm" [formGroup]="searchForm" class="form">
+        <!-- <span> -->
+            <mat-form-field class="full-width" appearance="fill">
+                <mat-label>Look up Charities or Contractors</mat-label>
+                <input matInput type="text" placeholder="" formControlName="search">
+            </mat-form-field>
+        <!-- </span> -->
+        <!-- <div> -->
+            <button mat-raised-button color="primary" class="create-btn" (click)="onSubmit(formDirective)">
+                <span class="material-icons">
+                    search
+                </span>
+                Search
+            </button>
+        <!-- </div> -->
+    </form>
+    <!-- <div class="padding">
+           <button
+                mat-raised-button
+                color="primary"
+                class="create-btn"
+                (click)="onSubmit(formDirective)">
+                <span class="material-icons">
+                    search
+                </span>
+                Search
+            </button>
+        </div> -->
+</div>
+</mat-card>
+<!-- </section> -->
+<!-- <mat-divider></mat-divider> -->

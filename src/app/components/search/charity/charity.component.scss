@@ -1,0 +1,46 @@
+@import 'src/sass/variables';
+
+h3 {
+    background-color: $mediumOpacityBlue;
+    color: #fff;
+    padding: 12px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.timer-box {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.button-box {
+    width: fit-content;
+}
+
+.material-icons {
+    font-size: 16px;
+}
+
+.loading-container {
+    background-color: #fff;
+}
+
+.step-body-container {
+    position: relative;
+}
+
+.red-time {
+    color: $red;
+}
+
+.field-flexbox {
+    display: flex;
+    mat-form-field {
+        padding: 10px;
+    }
+}
+
+.started-actions-flex {
+    display: flex;
+    justify-content: space-between;
+}

@@ -83,7 +83,7 @@ export class DappService {
 
   public async loadRequests(): Promise<any> {
     try {
-      const count = await this.web3Service.contract.methods.getDeliveryCount().call();
+      const count = await this.web3Service.contract.methods.requestCount().call();
       const requests = [];
       for (let i = 0; i < count; i++) {
         const charity = await this.web3Service.contract.methods.getRequest(i).call();
@@ -99,10 +99,24 @@ export class DappService {
   public async getCharityInfo(charityName: string): Promise<any> {
     console.log("GET CLIENT");
     try {
+      let rVal = await this.web3Service.contract.methods.getCharity(charityName).call();
+      const decodedRequest = this.decodeRequest(charityName, rVal);
+      return decodedRequest;
+    } catch (err) {
+      // console.log('SearchService.getCharityInfo(): failed:', err);
+      // alert('SearchService.getCharityInfo(): failed:' + err);
+      throw err;
+      //return err;
+    }
+  }
+
+  public async searchInfo(name: string): Promise<any> {
+    console.log("GET CLIENT");
+    try {
       //let owner: string = await this.web3Service.contract.methods.getCurrentOwner().call();
       //let owner: string = "0x81E0ABF825FA3DF39E2EF2B063504C344B9702D3A".toUpperCase();
       //let owner: string = this.web3Service.owner;
-      let rVal = await this.web3Service.contract.methods.getCharity(charityName).call();
+      let rVal = await this.web3Service.contract.methods.searchInfo(name).call();
       return rVal;
     } catch (err) {
       // console.log('SearchService.getCharityInfo(): failed:', err);
@@ -151,7 +165,11 @@ export class DappService {
     }
   }
 
-  private decodeRequest(charity: string, request: any) {
+  public decodeRequest(charity: string, request: any) {
+    let urgent: boolean;
+    let state: number;
+    request.tokenReward > 2 ? urgent = true : urgent = false;
+    request.isSelected = false ? state = 0 : state = 1;
     return {
       charity: charity,
       selected: request.isSelected,
@@ -162,7 +180,9 @@ export class DappService {
       reward: request.tokenReward,
       request: request.request,
       contact: request.primaryContact,
-      category: +request.state,
+      urgent: urgent,
+      state: +state,
+      category: +request.category,
       timestamp: new Date(0).setUTCSeconds(+request.timestamp)
     };
   }

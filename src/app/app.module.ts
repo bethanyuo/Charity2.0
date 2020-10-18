@@ -21,6 +21,9 @@ import { HomeComponent } from './components/home/home.component';
 import { DeliveryStateIconPipe } from './pipes/delivery-state-icon.pipe';
 import { DeliveryStatePipe } from './pipes/delivery-state.pipe';
 import { Web3Service } from './services/web3.service';
+import { SearchComponent } from './components/search/search.component';
+import { CharityComponent } from './components/search/charity/charity.component';
+import { SupplierComponent } from './components/search/supplier/supplier.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +37,10 @@ import { Web3Service } from './services/web3.service';
     RequestFormComponent,
     HomeComponent,
     DeliveryStateIconPipe,
-    DeliveryStatePipe
+    DeliveryStatePipe,
+    SearchComponent,
+    CharityComponent,
+    SupplierComponent
   ],
   imports: [
     BrowserModule,

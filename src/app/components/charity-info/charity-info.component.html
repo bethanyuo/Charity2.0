@@ -62,7 +62,7 @@
             <div *ngIf="!isLoading && requestData.state === requestState.PENDING" 
                 mat-dialog-actions
                 [matTooltip]="startDeliveryTooltipText"
-                aria-label="Button that displays a tooltip when focused or hovered over">>
+                aria-label="Button that displays a tooltip when focused or hovered over">
                 <form
                     [formGroup]="applicationForm" 
                     (ngSubmit)="onApplyToRequest()"

@@ -5,7 +5,7 @@
     <!-- Position Column -->
     <ng-container matColumnDef="charity">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Charity </th>
-      <td mat-cell *matCellDef="let request"> {{ request.charity }} </td>
+      <td mat-cell *matCellDef="let request"> {{ requests.charity }} </td>
     </ng-container>
 
     <!-- Name Column -->
@@ -14,9 +14,9 @@
       <td mat-cell *matCellDef="let request">
         <div class="flex-item">
           <span class="material-icons">
-            {{ request.category | requestStateIcon }}
+            {{ requests.category | requestStateIcon }}
           </span>
-          {{ request.category | requestState | titlecase }} 
+          {{ requests.category | requestState | titlecase }} 
         </div>
       </td>
     </ng-container>
@@ -24,20 +24,20 @@
     <!-- Weight Column -->
     <ng-container matColumnDef="reward">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Reward </th>
-      <td mat-cell *matCellDef="let request"> {{ request.reward }} CTKN </td>
+      <td mat-cell *matCellDef="let request"> {{ requests.reward }} CTKN </td>
     </ng-container>
 
     <!-- Symbol Column -->
     <ng-container matColumnDef="state">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Available? </th>
-        <td mat-cell *matCellDef="let request"> {{ !request.state }} </td>
+        <td mat-cell *matCellDef="let request"> {{ !requests.selected }} </td>
     </ng-container>
       
     
     <ng-container matColumnDef="detailsBtn">
       <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
       <td mat-cell *matCellDef="let request">
-        <button mat-icon-button matTooltip="More info about this request" matTooltipPosition="right" (click)="openDialog(request.charity)">
+        <button mat-icon-button matTooltip="More info about this request" matTooltipPosition="right" (click)="openDialog(requests.charity)">
           <span class="material-icons">
             loupe
           </span>

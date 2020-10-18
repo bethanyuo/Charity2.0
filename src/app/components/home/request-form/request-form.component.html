@@ -13,8 +13,8 @@
                 <mat-step [stepControl]="creationForm.get('charityInfo')" formGroupName="charityInfo">
                     <ng-template matStepLabel>Charity Info</ng-template>
                     <mat-form-field>
-                    <mat-label>Charity name</mat-label>
-                    <input matInput type="text" placeholder="Charity name" formControlName="charityName" required>
+                        <mat-label>Charity name</mat-label>
+                        <input matInput type="text" placeholder="Charity name" formControlName="charityName" required>
                     </mat-form-field>
                     <mat-form-field>
                         <mat-label>Contact Info</mat-label>
@@ -35,25 +35,27 @@
                 <mat-step [stepControl]="creationForm.get('requestInfo')"  formGroupName="requestInfo">
                     <ng-template matStepLabel>Request Info</ng-template>
                     <mat-form-field>
-                        <mat-label>Request Data</mat-label>
-                        <input matInput type="text" placeholder="Enter your request here..." formControlName="request" required>
+                        <!-- <mat-label>Request Data</mat-label> -->
+                        <mat-label>Leave a detailed request</mat-label>
+                        <textarea matInput placeholder="Ex. We need..." formControlName="request" required></textarea>
+                        <!-- <input matInput type="text" placeholder="Enter your request here..." formControlName="request" required> -->
                     </mat-form-field>
                     <!-- <mat-form-field>
                         <mat-label>Is this Request Urgent?</mat-label>
                         <input matInput type="radio" placeholder="Receiver name" formControlName="receiverName" required>
                     </mat-form-field> -->
-                    <!-- <div>
-                        <mat-radio-group class="radio-group" aria-label="Select an option" [(ngModel)]="urgent" formControlName="urgent">
-                            <mat-label>Is this Request Urgent?</mat-label>
+                    <div>
+                        <mat-radio-group class="radio-group" color="primary" aria-label="Select an option" formControlName="urgent">
+                            <label>Is this Request Urgent?</label>
                             <mat-radio-button class="radio-button" [value]="true">Yes</mat-radio-button>
                             <mat-radio-button class="radio-button" [value]="false">No</mat-radio-button>
                         </mat-radio-group>
-                    </div> -->
-                    <mat-radio-group color="primary" class="radio-group" aria-label="Select an option" formControlName="urgent">
+                    </div>
+                    <!-- <mat-radio-group color="primary" class="radio-group" aria-label="Select an option" formControlName="urgent">
                         <mat-label class="btm">Is this Request Urgent?</mat-label>
                         <mat-radio-button class="radio-button" [value]="true">Yes</mat-radio-button>
                         <mat-radio-button class="radio-button" [value]="false">No</mat-radio-button>
-                    </mat-radio-group>
+                    </mat-radio-group> -->
                     <!-- <h4>Request Category</h4> -->
                     <mat-form-field appearance="fill">
                       <mat-label>Category</mat-label>

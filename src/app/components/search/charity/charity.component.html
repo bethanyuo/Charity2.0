@@ -1,0 +1,43 @@
+<div>
+    <h3 mat-dialog-title>{{ requestData.charity }}</h3>
+    <div class="timer-box">
+        <div>
+            Should be delivered before: {{ requestData.deadline | date:'medium' }}
+        </div>
+        <div *ngIf="requestData.state !== requestState.PENDING">
+            Remaining: <span [ngClass]="{ 'red-time': deadlineExceeded }">
+                {{ timer?.days }}d {{ timer?.hours }}h {{ timer?.minutes }}m {{ timer?.seconds }}s
+            </span>
+        </div>
+    </div>
+    <div class="step-body-container">
+        <div *ngIf="isLoading || isSending" class="loading-container">
+            <p *ngIf="isSending">Waiting for the DApp to confirm your demand...</p>
+            <p *ngIf="isLoading">Loading data from the blockchain...</p>
+            <mat-spinner></mat-spinner>
+        </div>
+        <mat-list role="list">
+            <mat-list-item role="listitem"><b>Address: </b> {{ requestData.ID }}</mat-list-item>
+            <mat-list-item role="listitem"><b>Primary Contact: </b> {{ requestData.contact }}</mat-list-item>
+            <mat-list-item role="listitem"><b>Members: </b> {{ requestData.members }}</mat-list-item>
+            <mat-list-item role="listitem"><b>Request: </b> {{ requestData.request }}</mat-list-item>
+            <mat-list-item role="listitem"><b>Category: </b> {{ requestData.category | requestState | titlecase }}</mat-list-item>
+            <mat-list-item role="listitem" *ngFor="let type of types">
+                <div *ngIf="requestData.urgent === type.value">
+                    <b>Urgent? : </b> {{type.viewValue}}
+                </div>
+            </mat-list-item>
+            <mat-list-item role="listitem"><b>Selected? : </b> {{ requestData.selected }}</mat-list-item>
+            <!-- <mat-list-item role="listitem" *ngFor="let type of types">
+                <div *ngIf="requestData.selected === type.value">
+                    <b>Selected? : </b> {{type.viewValue}}
+                </div>
+            </mat-list-item> -->
+            <mat-list-item role="listitem"><b>Token Reward: </b> {{ requestData.reward }}</mat-list-item>
+            <mat-list-item role="listitem"><b>Timestamp: </b> {{ requestData.timestamp | date:'medium' }}</mat-list-item>
+        </mat-list>
+    </div>
+    <div>
+        <button mat-raised-button color="primary" [disabled]="requestData.selected === true" (click)="navApply(requestData.charity)">Apply</button>
+    </div>
+</div>

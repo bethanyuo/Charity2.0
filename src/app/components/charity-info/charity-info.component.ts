@@ -79,7 +79,7 @@ export class CharityInfoComponent implements AfterViewInit {
 
   public ngAfterViewInit() {
     setTimeout(() => {
-      this.stepper.selectedIndex = this.requestData.isSelected = false ? 0 : 1;
+      this.stepper.selectedIndex = this.requestData.selected = false ? 0 : 1;
       this.steps.forEach((step, index: number) => {
         if (index <= this.stepper.selectedIndex) {
           step.completed = true;
@@ -94,7 +94,7 @@ export class CharityInfoComponent implements AfterViewInit {
   private initSteps(): void {
     for (const state in SelectionState) {
       if (isNaN(Number(state)) && state !== 'ENDED') {
-          this.steps.push({ id: SelectionState[state], completed: false });
+        this.steps.push({ id: SelectionState[state], completed: false });
       }
     }
   }
