@@ -1,1 +1,26 @@
-<p>supplier works!</p>
+<div>
+    <h3 mat-dialog-title>{{ suppData.contractor }}</h3>
+    <div class="step-body-container">
+        <div *ngIf="isLoading" class="loading-container">
+            <!-- <p *ngIf="isSending">Waiting for the DApp to confirm your demand...</p> -->
+            <p *ngIf="isLoading">Loading data from the blockchain...</p>
+            <mat-spinner></mat-spinner>
+        </div>
+        <mat-list role="list">
+            <mat-list-item role="listitem"><b>Address: </b> {{ suppData.address }}</mat-list-item>
+            <mat-list-item role="listitem"><b>Primary Contact: </b> {{ suppData.contact }}</mat-list-item>
+            <mat-list-item role="listitem"><b>Members: </b> {{ suppData.members }}</mat-list-item>
+            <mat-list-item role="listitem"><b>Category: </b> {{ suppData.category | requestState | titlecase }}</mat-list-item>
+            <mat-list-item role="listitem"><b>Timestamp: </b> {{ suppData.timestamp | date:'medium' }}</mat-list-item>
+            <mat-list-item role="listitem"><b>Completed Requests: </b> {{ suppData.posRequests }}</mat-list-item>
+            <mat-list-item role="listitem"><b>Incompleted Requests: </b> {{ suppData.negRequests }}</mat-list-item>
+        </mat-list>
+    </div>
+    <div
+        mat-dialog-actions
+        class="button-box"
+        [matTooltip]="Apply to be a Contractor!"
+        aria-label="Button that displays a tooltip when focused or hovered over">
+        <button mat-raised-button color="primary" ([routerLink]="'/contractor'">Apply</button>
+    </div>
+</div>

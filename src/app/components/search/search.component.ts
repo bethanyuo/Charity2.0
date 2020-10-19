@@ -39,8 +39,9 @@ export class SearchComponent implements OnInit {
       .then(res => {
         this.notificationService.sendSuccess('Information successfully retrieved!');
         if (res.deadline = null) {
+          const requestInfo = this.dappService.decodeSupplier(this.searchForm.value.search, res);
           this.dialog.open(SupplierComponent, {
-            data: res 
+            data: requestInfo 
           })
         } else {
           const requestInfo = this.dappService.decodeRequest(this.searchForm.value.search, res);

@@ -187,4 +187,18 @@ export class DappService {
     };
   }
 
+  public decodeSupplier(contractor: string, info: any) {
+    return {
+      contractor: contractor,
+      //address: this.web3Service.web3.utils.toUtf8(request.ID),
+      address: info.supplierID,
+      members: info.members,
+      contact: info.primaryContact,
+      posRequests: +info.completedRequests,
+      negRequests: +info.incompletedRequests,
+      category: +info.category,
+      timestamp: new Date(0).setUTCSeconds(+info.timestamp)
+    };
+  }
+
 }
