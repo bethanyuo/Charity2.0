@@ -1,17 +1,16 @@
 <nav>
     <div>
         <button mat-button [routerLink]="'/'">
-            <!-- matTooltip="Go Home" matTooltipPosition="after" aria-label="Button that displays a tooltip when focused or hovered over"  -->
             <span class="material-icons">
                 public
             </span>
             Charity DApp!
         </button>
-        <button mat-button routerLink="'/search'">
-            <!-- <span class="material-icons">
-                public
-            </span> -->
+        <button mat-button [routerLink]="'/search'">
             Search
+        </button>
+        <button mat-button [routerLink]="'/contractor'">
+            New Contractors
         </button>
     </div>
     <!-- <h1>Awesome Decentralized Delivery App!</h1> -->

@@ -24,6 +24,9 @@ import { Web3Service } from './services/web3.service';
 import { SearchComponent } from './components/search/search.component';
 import { CharityComponent } from './components/search/charity/charity.component';
 import { SupplierComponent } from './components/search/supplier/supplier.component';
+import { ContractFormComponent } from './components/contractor-home/contract-form/contract-form.component';
+import { ContractorHomeComponent } from './components/contractor-home/contractor-home.component';
+import { PendingRequestsComponent } from './components/contractor-home/pending-requests/pending-requests.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +43,10 @@ import { SupplierComponent } from './components/search/supplier/supplier.compone
     DeliveryStatePipe,
     SearchComponent,
     CharityComponent,
-    SupplierComponent
+    SupplierComponent,
+    ContractFormComponent,
+    ContractorHomeComponent,
+    PendingRequestsComponent
   ],
   imports: [
     BrowserModule,

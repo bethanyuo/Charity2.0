@@ -1,0 +1,39 @@
+@import 'src/sass/variables';
+
+.loading-container {
+    background-color: #fff;
+}
+
+h2 {
+    text-align: center;
+}
+
+.full-width {
+    width: 50%;
+}
+
+mat-card {
+    margin-bottom: 10px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+mat-form-field {
+    padding: 10px;
+}
+
+mat-radio-group {
+    padding: 10px;
+}
+
+.radio-button {
+    margin: 5px;
+}
+
+.btm {
+    margin-bottom: 10px;
+}
+
+.create-btn {
+    float: right;
+}

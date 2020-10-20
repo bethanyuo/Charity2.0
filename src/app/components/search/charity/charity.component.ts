@@ -4,6 +4,7 @@ import { DappService } from 'src/app/services/dapp.service';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Observable } from 'rxjs';
 import { CharityInfoComponent } from '../../charity-info/charity-info.component';
+import { SelectionState } from 'src/app/models/selectionState';
 
 @Component({
   selector: 'app-charity',
@@ -11,7 +12,7 @@ import { CharityInfoComponent } from '../../charity-info/charity-info.component'
   styleUrls: ['./charity.component.scss']
 })
 export class CharityComponent implements AfterViewInit {
-
+  public requestState = SelectionState;
   public isSending = false;
   public isLoading = true;
   public timer = { days: null, hours: null, minutes: null, seconds: null };

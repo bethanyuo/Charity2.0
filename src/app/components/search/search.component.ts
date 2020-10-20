@@ -26,7 +26,10 @@ export class SearchComponent implements OnInit {
   ) {
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
+    this.searchForm = this.formBuilder.group({
+      search: ['']
+    });
   }
 
   public onSubmit(formDirective: FormGroupDirective) {

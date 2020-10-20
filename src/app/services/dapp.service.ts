@@ -20,15 +20,10 @@ export class DappService {
     }
   }
 
-  public async createContractor(supplierName: string, supplierID: string, members: number, primaryContact: string, category: Category): Promise<any> {
+  public async createContractor(supplierName: string, supplierID: string, members: number, primaryContact: string, category: Category, currentAddress: string): Promise<any> {
     console.log("CREATE CONTRACTOR");
     try {
-      //let owner: string = await this.web3Service.contract.methods.getCurrentOwner().call();
-      //let owner: string = "0x81E0ABF825FA3DF39E2EF2B063504C344B9702D3A".toUpperCase();
-      // const accounts = await this.web3Service.web3.eth.getAccounts();
-      // const from = accounts[0];
-      //let owner: string = this.web3Service.owner;
-      return await this.web3Service.contract.methods.addSupplier(supplierName, supplierID, members, primaryContact, category).send({ from: supplierID, gas: 3000000 });
+      return await this.web3Service.contract.methods.addSupplier(supplierName, supplierID, members, primaryContact, category).send({ from: currentAddress, gas: 3000000 });
     } catch (err) {
       console.log('SelectService.selectCharity(): failed:', err);
       alert('SelectService.selectCharity(): failed:' + err);
@@ -53,13 +48,9 @@ export class DappService {
   public async getContractor(charityName: string): Promise<string> {
     console.log("CALL CONTRACTOR");
     try {
-      //let owner: string = await this.web3Service.contract.methods.getCurrentOwner().call();
-      //let owner: string = "0x81E0ABF825FA3DF39E2EF2B063504C344B9702D3A".toUpperCase();
-      //let owner: string = this.web3Service.owner;
       return await this.web3Service.contract.methods.getPair(charityName).call();
     } catch (err) {
       console.log('DappService.getPair(): failed:' + err);
-      //alert('SelectService.selectCharity(): failed:' + err);
       return err;
     }
   }
@@ -96,6 +87,7 @@ export class DappService {
       console.log('MEGA ERROR ', err);
     }
   }
+
   public async getCharityInfo(charityName: string): Promise<any> {
     console.log("GET CLIENT");
     try {
@@ -103,26 +95,17 @@ export class DappService {
       const decodedRequest = this.decodeRequest(charityName, rVal);
       return decodedRequest;
     } catch (err) {
-      // console.log('SearchService.getCharityInfo(): failed:', err);
-      // alert('SearchService.getCharityInfo(): failed:' + err);
       throw err;
-      //return err;
     }
   }
 
   public async searchInfo(name: string): Promise<any> {
     console.log("GET CLIENT");
     try {
-      //let owner: string = await this.web3Service.contract.methods.getCurrentOwner().call();
-      //let owner: string = "0x81E0ABF825FA3DF39E2EF2B063504C344B9702D3A".toUpperCase();
-      //let owner: string = this.web3Service.owner;
       let rVal = await this.web3Service.contract.methods.searchInfo(name).call();
       return rVal;
     } catch (err) {
-      // console.log('SearchService.getCharityInfo(): failed:', err);
-      // alert('SearchService.getCharityInfo(): failed:' + err);
       throw err;
-      //return err;
     }
   }
 
@@ -153,14 +136,8 @@ export class DappService {
     console.log("SELECT CLIENT");
     console.log("Charity name = " + charityName);
     try {
-      //console.log("Charity name = " + charityName);
-      //let owner: string = await this.web3Service.contract.methods.getCurrentOwner().call();
-      //let owner: string = "0x81E0ABF825FA3DF39E2EF2B063504C344B9702D3A".toUpperCase();
-      //let owner: string = this.web3Service.owner;
       return await this.web3Service.contract.methods.selectCharity(charityName, supplierName, supplierID).send({ from: supplierID, gas: 3000000 });
     } catch (err) {
-      // console.log('SelectService.selectCharity(): failed:', err);
-      // alert('SelectService.selectCharity(): failed:' + err);
       throw err;
     }
   }
@@ -190,7 +167,6 @@ export class DappService {
   public decodeSupplier(contractor: string, info: any) {
     return {
       contractor: contractor,
-      //address: this.web3Service.web3.utils.toUtf8(request.ID),
       address: info.supplierID,
       members: info.members,
       contact: info.primaryContact,
