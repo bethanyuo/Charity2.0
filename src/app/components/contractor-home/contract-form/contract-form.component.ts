@@ -1,6 +1,6 @@
 import { Component, NgZone, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormGroupDirective, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { IAccount } from 'src/app/models/account';
 import { DappService } from 'src/app/services/dapp.service';
 import { NotificationService } from 'src/app/services/notification.service';
@@ -54,7 +54,7 @@ export class ContractFormComponent implements OnInit {
     });
   }
 
-  public onSubmit(formDirective: FormGroupDirective) {
+  public onSubmit() {
     this.isSending = true;
     if (this.contractorForm.invalid) {
       return;
@@ -63,10 +63,13 @@ export class ContractFormComponent implements OnInit {
     this.dappService.createContractor(this.contractorForm.value.contractorForm, this.contractorForm.value.address,this.contractorForm.value.members, this.contractorForm.value.primaryContact, this.contractorForm.value.type, this.currentAccount.address)
       .then(res => {
         this.notificationService.sendSuccess('Delivery successfully created!');
+        this.dappService.setFilteredData(res);
+        console.log("This is the contractor = " + res);
+        return res;
       })
       .catch(err => this.notificationService.sendError('Something went wrong while creating delivery'))
       .finally(() => this.isSending = false);
-    this.resetForm(formDirective);
+    this.resetForm(this.formDirective);
   }
 
 

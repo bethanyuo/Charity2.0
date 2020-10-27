@@ -16,7 +16,7 @@
           <span class="material-icons">
             {{ requests.category | requestStateIcon }}
           </span>
-          {{ requests.category | requestState | titlecase }} 
+          {{ requests.category | requestState | titlecase }}
         </div>
       </td>
     </ng-container>
@@ -29,15 +29,16 @@
 
     <!-- Symbol Column -->
     <ng-container matColumnDef="state">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Available? </th>
-        <td mat-cell *matCellDef="let request"> {{ !requests.selected }} </td>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Available? </th>
+      <td mat-cell *matCellDef="let request"> {{ !requests.selected }} </td>
     </ng-container>
-      
-    
+
+
     <ng-container matColumnDef="detailsBtn">
       <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
       <td mat-cell *matCellDef="let request">
-        <button mat-icon-button matTooltip="More info about this request" matTooltipPosition="right" (click)="openDialog(requests.charity)">
+        <button mat-icon-button matTooltip="More info about this request" matTooltipPosition="right"
+          (click)="openDialog(requests.charity)">
           <span class="material-icons">
             loupe
           </span>

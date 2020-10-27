@@ -2,7 +2,7 @@
 <mat-card>
     <div class="main-form-container">
         <div *ngIf="isSending" class="loading-container">
-            <p>Waiting for the blockchain to confirm your demand...it can take a little while</p>
+            <p><b>Waiting for the blockchain to confirm your demand...it can take a little while</b></p>
             <mat-spinner></mat-spinner>
         </div>
         <mat-horizontal-stepper labelPosition="bottom" [linear]="true" #stepper>

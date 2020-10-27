@@ -1,0 +1,23 @@
+@import 'src/sass/variables';
+
+h2 {
+    text-align: center;
+}
+
+table {
+    width: 100%;
+}
+
+.list-container {
+    height: 100%;
+    overflow: auto;
+}
+
+.flex-item {
+    display: flex;
+    align-items: center;
+    .material-icons {
+        margin-right: 10px;
+        color: $blue;
+    }
+}

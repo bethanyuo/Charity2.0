@@ -27,14 +27,17 @@ export class SearchComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.searchForm = this.formBuilder.group({
+    const sForm = this.formBuilder.group({
       search: ['']
+    });
+    this.searchForm = this.formBuilder.group({
+      sForm,
     });
   }
 
   public onSubmit(formDirective: FormGroupDirective) {
     this.isSending = true;
-    if (this.searchForm.value.search = null || this.searchForm.invalid) {
+    if (this.searchForm.value.sForm.search = null || this.searchForm.invalid) {
       return;
     }
     //const format = this.formatForm(this.creationForm.value);
@@ -42,16 +45,16 @@ export class SearchComponent implements OnInit {
       .then(res => {
         this.notificationService.sendSuccess('Information successfully retrieved!');
         if (res.deadline = null) {
-          const requestInfo = this.dappService.decodeSupplier(this.searchForm.value.search, res);
+          const requestInfo = this.dappService.decodeSupplier(this.searchForm.value.sForm.search, res);
           this.dialog.open(SupplierComponent, {
             data: requestInfo 
           })
         } else {
-          const requestInfo = this.dappService.decodeRequest(this.searchForm.value.search, res);
+          const requestInfo = this.dappService.decodeRequest(this.searchForm.value.sForm.search, res);
           this.dialog.open(CharityComponent, {
             data: requestInfo 
           })
-        }
+        } console.log("Searched Item: " + this.searchForm.value.sForm.search);
       })
       .catch(err => this.notificationService.sendError('Something went wrong while searching'))
       .finally(() => this.isSending = false);

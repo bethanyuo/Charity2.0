@@ -1,1 +1,25 @@
-<p>pending-requests works!</p>
+<h2>Related Requests</h2>
+<div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" matSort>
+
+        <ng-container matColumnDef="charity">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Charity </th>
+            <td mat-cell *matCellDef="let request"> {{ requests.charity }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="urgent">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> An Urgent Request? </th>
+            <td mat-cell *matCellDef="let request"> {{ requests.urgent }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="reward">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Reward Value </th>
+            <td mat-cell *matCellDef="let request"> {{ requests.reward }} CTKN </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns; sticky: true"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[8, 10, 20]" showFirstLastButtons></mat-paginator>
+</div>

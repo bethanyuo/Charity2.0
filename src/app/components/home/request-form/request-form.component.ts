@@ -79,10 +79,10 @@ export class RequestFormComponent implements OnInit {
     const format = this.formatForm(this.creationForm.value);
     this.dappService.createRequest(format.charityName, format.charityID, format.request, format.members, format.primaryContact, format.urgent, format.requestType, this.currentAccount.address)
       .then(res => {
-        this.notificationService.sendSuccess('Delivery successfully created!');
+        this.notificationService.sendSuccess('Request successfully created!');
         this.stepper.reset();
       })
-      .catch(err => this.notificationService.sendError('Something went wrong while creating delivery'))
+      .catch(err => this.notificationService.sendError('Something went wrong while creating your request'))
       .finally(() => this.isSending = false);
     this.resetForm(formDirective);
   }

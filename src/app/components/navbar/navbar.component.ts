@@ -55,7 +55,6 @@ export class NavbarComponent implements OnDestroy {
     this.a = var3;
     console.log("This is the address = " + this.a)
     this.b = num3;
-    //return this.ibccount;
   }
 
   private listenToNetworkChanges(): void {
