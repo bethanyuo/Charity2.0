@@ -6,36 +6,38 @@
             <mat-spinner></mat-spinner>
         </div>
         <form [formGroup]="contractorForm" #formDirective="ngForm">
-            <mat-form-field>
-                <!-- class="full-width" -->
-                <mat-label>Contractor name</mat-label>
-                <input matInput type="text" placeholder="Contractor name" formControlName="contractorName" required>
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label>ETH Address</mat-label>
-                <input matInput type="text" placeholder="Address ID" formControlName="address" required>
-            </mat-form-field>
-            <!-- <br> -->
-            <mat-form-field>
-                <mat-label>Contact Info</mat-label>
-                <input matInput type="email" placeholder="Contact email" formControlName="contactEmail" required>
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label>Members</mat-label>
-                <input matInput type="number" placeholder="Total members" formControlName="members" required>
-            </mat-form-field>
-            <br>
-            <mat-form-field appearance="fill">
-                <mat-label>Category</mat-label>
-                <mat-select name="type" formControlName="type" required>
-                    <mat-option *ngFor="let type of types" [value]="type.value">
-                        {{type.viewValue}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
+            <div control="contractorForm.get('supplierInfo')" formGroupName="supplierInfo">
+                <mat-form-field>
+                    <!-- class="full-width" -->
+                    <mat-label>Contractor name</mat-label>
+                    <input matInput type="text" placeholder="Contractor name" formControlName="contractorName" required>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>ETH Address</mat-label>
+                    <input matInput type="text" placeholder="Address ID" formControlName="address" required>
+                </mat-form-field>
+                <!-- <br> -->
+                <mat-form-field>
+                    <mat-label>Contact Info</mat-label>
+                    <input matInput type="email" placeholder="Contact email" formControlName="contactEmail" required>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Members</mat-label>
+                    <input matInput type="number" placeholder="Total members" formControlName="members" required>
+                </mat-form-field>
+                <br>
+                <mat-form-field appearance="fill">
+                    <mat-label>Category</mat-label>
+                    <mat-select name="type" formControlName="type" required>
+                        <mat-option *ngFor="let type of types" [value]="type.value">
+                            {{type.viewValue}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
             <div>
                 <button mat-raised-button color="primary" class="create-btn" [disabled]="contractorForm.invalid"
-                    (click)="onSubmit()">
+                    (click)="onSubmit(formDirective)">
                     Submit
                 </button>
             </div>

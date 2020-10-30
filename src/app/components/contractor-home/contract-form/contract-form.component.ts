@@ -1,5 +1,5 @@
-import { Component, NgZone, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, FormGroupDirective, Validators } from '@angular/forms';
+import { Component, Input, NgZone, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, FormGroupDirective, Validators, FormControl } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
 import { IAccount } from 'src/app/models/account';
 import { DappService } from 'src/app/services/dapp.service';
@@ -13,6 +13,7 @@ import { Type } from 'src/app/models/type';
   styleUrls: ['./contract-form.component.scss']
 })
 export class ContractFormComponent implements OnInit {
+  @Input() public control: FormControl;
   public currentAccount: IAccount;
   public contractorForm: FormGroup;
   public submitted = false;
@@ -45,31 +46,34 @@ export class ContractFormComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.contractorForm = this.formBuilder.group({
+    const supplierInfo = this.formBuilder.group({
       contractorName: ['', Validators.required],
       contactEmail: ['', Validators.required],
       members: ['', Validators.required],
       address: ['', Validators.required],
       type: ['', Validators.required]
     });
+    this.contractorForm = this.formBuilder.group({
+      supplierInfo
+    });
   }
 
-  public onSubmit() {
+  public onSubmit(formDirective) {
     this.isSending = true;
     if (this.contractorForm.invalid) {
       return;
     }      
-    console.log(this.contractorForm.value);
-    this.dappService.createContractor(this.contractorForm.value.contractorForm, this.contractorForm.value.address,this.contractorForm.value.members, this.contractorForm.value.primaryContact, this.contractorForm.value.type, this.currentAccount.address)
+    console.log("Contractor Name is " + this.contractorForm.value.supplierInfo.contractorName);
+    this.dappService.createContractor(this.contractorForm.value.supplierInfo.contractorName, this.contractorForm.value.supplierInfo.address, this.contractorForm.value.supplierInfo.members, this.contractorForm.value.supplierInfo.contactEmail, this.contractorForm.value.supplierInfo.type, this.currentAccount.address)
       .then(res => {
-        this.notificationService.sendSuccess('Delivery successfully created!');
+        this.notificationService.sendSuccess('contract successfully created!');
         this.dappService.setFilteredData(res);
         console.log("This is the contractor = " + res);
         return res;
       })
-      .catch(err => this.notificationService.sendError('Something went wrong while creating delivery'))
+      .catch(err => this.notificationService.sendError('Something went wrong while creating contract'))
       .finally(() => this.isSending = false);
-    this.resetForm(this.formDirective);
+    this.resetForm(formDirective);
   }
 
 
@@ -86,4 +90,7 @@ export class ContractFormComponent implements OnInit {
     });
     this.subscription.add(subscription);
   }
+
+  //  
+
 }

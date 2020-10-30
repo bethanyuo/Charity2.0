@@ -29,8 +29,8 @@ export class DappService {
       await this.web3Service.contract.methods.addSupplier(supplierName, supplierID, members, primaryContact, category).send({ from: currentAddress, gas: 3000000 });
       return supplierName;
     } catch (err) {
-      console.log('SelectService.selectCharity(): failed:', err);
-      alert('SelectService.selectCharity(): failed:' + err);
+      console.log('DappService.createContractor(): failed:', err);
+      alert('DappService.createContractor(): failed:' + err);
       return err;
     }
   }
@@ -101,13 +101,13 @@ export class DappService {
   public async loadPendingRequests(contractor: string): Promise<any> {
     try {
       const count = await this.web3Service.contract.methods.requestCount().call();
-      const requests = [];
+      const relRequests = [];
       for (let i = 0; i < count; i++) {
         const requests = await this.web3Service.contract.methods.pendingRequests(contractor, i).call();
         const decodedRequest = this.decodePendingRequests(requests);
-        requests.push(decodedRequest);
+        relRequests.push(decodedRequest);
       }
-      return requests;
+      return relRequests;
     } catch (err) {
       console.log('MEGA ERROR ', err);
     }

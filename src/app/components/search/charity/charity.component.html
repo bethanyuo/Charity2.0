@@ -22,11 +22,12 @@
             <mat-list-item role="listitem"><b>Members: </b> {{ requestData.members }}</mat-list-item>
             <mat-list-item role="listitem"><b>Request: </b> {{ requestData.request }}</mat-list-item>
             <mat-list-item role="listitem"><b>Category: </b> {{ requestData.category | requestState | titlecase }}</mat-list-item>
-            <mat-list-item role="listitem" *ngFor="let type of types">
-                <div *ngIf="requestData.urgent === type.value">
+            <mat-list-item role="listitem"><b>Urgent? : </b> {{ requestData.urgent }}</mat-list-item>
+            <!-- <mat-list-item role="listitem" *ngFor="let type of types">
+                <span *ngIf="requestData.urgent === type.value">
                     <b>Urgent? : </b> {{type.viewValue}}
-                </div>
-            </mat-list-item>
+                </span>
+            </mat-list-item> -->
             <mat-list-item role="listitem"><b>Selected? : </b> {{ requestData.selected }}</mat-list-item>
             <!-- <mat-list-item role="listitem" *ngFor="let type of types">
                 <div *ngIf="requestData.selected === type.value">

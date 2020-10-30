@@ -77,6 +77,7 @@ export class RequestFormComponent implements OnInit {
     }      
     console.log(this.creationForm.value);
     const format = this.formatForm(this.creationForm.value);
+    console.log(this.currentAccount.address);
     this.dappService.createRequest(format.charityName, format.charityID, format.request, format.members, format.primaryContact, format.urgent, format.requestType, this.currentAccount.address)
       .then(res => {
         this.notificationService.sendSuccess('Request successfully created!');

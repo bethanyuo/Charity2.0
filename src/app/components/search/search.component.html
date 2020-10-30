@@ -4,10 +4,13 @@
         <!-- class="mat-elevation-z8"> -->
         <form #formDirective="ngForm" [formGroup]="searchForm">
             <!-- <span> -->
-            <mat-form-field appearance="fill" class="full-width">
-                <mat-label>Look up Charities or Contractors</mat-label>
-                <input matInput type="text" formControlName="search">
-            </mat-form-field>
+            <div control="searchForm.get('queryForm')" formGroupName="queryForm">
+                <mat-form-field appearance="fill" class="full-width">
+                <!-- control="searchForm.get('queryForm')" formGroupName="queryForm"> -->
+                    <mat-label>Look up Charities or Contractors</mat-label>
+                    <input matInput type="text" formControlName="search">
+                </mat-form-field>
+            </div>
             <!-- </span> -->
             <div>
                 <button mat-raised-button color="primary" class="create-btn" (click)="onSubmit(formDirective)">

@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild, NgZone } from '@angular/core';
-import { FormGroup, FormBuilder, FormGroupDirective, Validators } from '@angular/forms';
+import { Component, OnInit, ViewChild, NgZone, Input } from '@angular/core';
+import { FormGroup, FormBuilder, FormGroupDirective, Validators, FormControl } from '@angular/forms';
 import { DappService } from 'src/app/services/dapp.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { Type } from 'src/app/models/type';
@@ -13,6 +13,7 @@ import { SupplierComponent } from './supplier/supplier.component';
   styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit {
+  @Input() public control: FormControl;
   private isSending = false;
   private isSubmitted = false;
   public searchForm: FormGroup;
@@ -27,42 +28,44 @@ export class SearchComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    const sForm = this.formBuilder.group({
-      search: ['']
+    const queryForm = this.formBuilder.group({
+      search: [''],
     });
     this.searchForm = this.formBuilder.group({
-      sForm,
+      queryForm,
     });
   }
 
   public onSubmit(formDirective: FormGroupDirective) {
     this.isSending = true;
-    if (this.searchForm.value.sForm.search = null || this.searchForm.invalid) {
+    if (this.searchForm.value.queryForm.search === null || this.searchForm.invalid) {
       return;
     }
-    //const format = this.formatForm(this.creationForm.value);
-    this.dappService.searchInfo(this.searchForm.value.search)
+    //const format = this.formatForm(this.searchForm.value);
+    this.dappService.searchInfo(this.searchForm.value.queryForm.search)
       .then(res => {
         this.notificationService.sendSuccess('Information successfully retrieved!');
-        if (res.deadline = null) {
-          const requestInfo = this.dappService.decodeSupplier(this.searchForm.value.sForm.search, res);
+        if (res.deadline === null) {
+          const requestInfo = this.dappService.decodeSupplier(this.searchForm.value.queryForm.search, res);
           this.dialog.open(SupplierComponent, {
-            data: requestInfo 
+            data: requestInfo
           })
         } else {
-          const requestInfo = this.dappService.decodeRequest(this.searchForm.value.sForm.search, res);
+          const requestInfo = this.dappService.decodeRequest(this.searchForm.value.queryForm.search, res);
           this.dialog.open(CharityComponent, {
-            data: requestInfo 
+            data: requestInfo
           })
-        } console.log("Searched Item: " + this.searchForm.value.sForm.search);
+        } console.log("Searched Item: " + this.searchForm.value.queryForm.search);
       })
       .catch(err => this.notificationService.sendError('Something went wrong while searching'))
       .finally(() => this.isSending = false);
     // this.resetForm(formDirective);
   }
 
-  // private resetForm(formDirective: FormGroupDirective) {
-  //   this.searchForm.reset();
-  //   formDirective.resetForm();
+  // private formatFormSearch(search: any): any {
+  //   return {
+  //     search: search.queryForm.search
+  //   };
   // }
+
 }
